@@ -22,5 +22,14 @@ use Illuminate\Support\Facades\Route;
 
 //Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/', '\App\Http\Controllers\TaskController@index'); //afisare lista sarcini pe pagina de
-Route::resource('tasks', '\App\Http\Controllers\TaskController');// Ruta de resurse va genera CRUD
+//Route::get('/', '\App\Http\Controllers\TaskController@index'); //afisare lista sarcini pe pagina de
+//Route::resource('tasks', '\App\Http\Controllers\TaskController');// Ruta de resurse va genera CRUD
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', '\App\Http\Controllers\TaskController@index');
+    Route::resource('tasks', '\App\Http\Controllers\TaskController');
+});
